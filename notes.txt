@@ -80,22 +80,8 @@ AUTRES :
 
 AFDX : bus pour avions basé sur ethernet
 
-uut : emetteur port map(
-	CLK => CLK_s,
-	TABORTP => TABORTP_s,
-	TAVAILP => TAVAILP_s,
-	TFINISHP => TFINISHP_s,
-	TLASTP => TLASTP_s,
-	RESET => RESET_s,
-	TDATAI => TDATAI_s,
-	TSTARTP => TSTARTP_s,
-	TREADDP=>TREADDP_s,
-	TDONEP => TDONEP_s,
-	TRNSMTP => TRNSMTP_s,
-	TDATAO => TADATO_s;	
-);
-
 A FAIRE
-* gestion du reset, finish, abort, tests
+* gestion du finish, abort, tests
+* modifier les compteurs pour les mettre en INTEGER
 
 
