@@ -95,4 +95,7 @@ uut : emetteur port map(
 	TDATAO => TADATO_s;	
 );
 
+A FAIRE
+* gestion du reset, finish, abort, tests
+
 
