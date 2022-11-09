@@ -46,19 +46,29 @@ On n'envoie pas le EFD dans RDATAO
 
 TRANSMISSION :
 - TABORTP : entrée = arrêt de la transmission (problème ou collision) => envoyer 4 octets de 1-0 alternés
-- TAVAILP : entrée = trame prête à la transmission
-- TDATAI[7:0]: entrée = octet à transmettre
-- TDATAO[7:0] : sortie = octet à envoyer à la couche physique
-- TDONEP : sortie = impulsion binaire qui indique la fin de transmission
-- TFINISHP : entrée = impulsion(?) arrête la transmission
-- TLASTP : entrée = impulsion binaire qui indique que l'entrée est le dernier octet de donnée
-- TREADDP : sortie = impulsion qui prévient la couche llc qu'on a envoyé l'octet
-- TRNSMTP : sortie = niveau qui indique qu'on est en transmission
-- TSTARTP : sortie = impulsion qui indique le début de la transmission
+- XTAVAILP : entrée = trame prête à la transmission
+- xTDATAI[7:0]: entrée = octet à transmettre
+- TFINISHP : entrée = impulsion arrête la transmission
+- XTLASTP : entrée = impulsion binaire qui indique que l'entrée est le dernier octet
+ 
+- XTDATAO[7:0] : sortie = octet à envoyer à la couche physique
+- XTDONEP : sortie = impulsion binaire qui indique la fin de transmission
+	de donnée
+- xTREADDP : sortie = impulsion qui prévient la couche llc qu'on a envoyé l'octet
+- xTRNSMTP : sortie = niveau qui indique qu'on est en transmission
+- xTSTARTP : sortie = impulsion qui indique le début de la transmission
 
 à nous de créer le SFD et le EFD
 transmettre l'adresse dest
 écrire notre adresse (source) à nous
+
+transmission : 
+*  sfd
+-> adresse dest
+*  adresse src
+~ lng et type
+-> données
+* efd
 
 COLLISIONS :
 - TSOCOLP : sortie = niveau qui indique une collision (en fonction de RCVNGP et TRNSMTP gestion des collision : attaque de RENABP et TABORTP)
@@ -67,5 +77,22 @@ AUTRES :
 - CLK : clock au bit
 - RESETN : entrée = à low, rien ne fonctionne (remise à 0)
 - NOADDRI[47:0] : entrée = adresse du matériel (émission->source/réception->destination)
+
+AFDX : bus pour avions basé sur ethernet
+
+uut : emetteur port map(
+	CLK => CLK_s,
+	TABORTP => TABORTP_s,
+	TAVAILP => TAVAILP_s,
+	TFINISHP => TFINISHP_s,
+	TLASTP => TLASTP_s,
+	RESET => RESET_s,
+	TDATAI => TDATAI_s,
+	TSTARTP => TSTARTP_s,
+	TREADDP=>TREADDP_s,
+	TDONEP => TDONEP_s,
+	TRNSMTP => TRNSMTP_s,
+	TDATAO => TADATO_s;	
+);
 
 
