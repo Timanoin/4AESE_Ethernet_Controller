@@ -14,20 +14,20 @@ component emetteur
           TSTARTP, TREADDP, TDONEP, TRNSMTP  : out std_logic;
           TDATAO : out std_logic_vector(7 downto 0));
 end component; 
-signal CLK_s     : in std_logic := '0';
-signal RESETN_s  : in std_logic := '0';
+signal CLK_s     : std_logic := '0';
+signal RESETN_s  : std_logic := '0';
 -- input signals
-signal TABORTP_s : in std_logic := '0';
-signal TAVAILP_s : in std_logic := '0';
-signal TFINISHP_s: in std_logic := '0';
-signal TLASTP_s  : in std_logic := '0';
-signal TDATAI_s  : in std_logic_vector(7 downto 0) := (others => '0') ;
+signal TABORTP_s : std_logic := '0';
+signal TAVAILP_s : std_logic := '0';
+signal TFINISHP_s: std_logic := '0';
+signal TLASTP_s  : std_logic := '0';
+signal TDATAI_s  : std_logic_vector(7 downto 0) := (others => '0') ;
 -- output signals
-signal TSTARTP_s : out std_logic :='0';
-signal TREADDP_s : out std_logic :='0';
-signal TDONEP_s  : out std_logic :='0';
-signal TRNSMTP_s : out std_logic :='0';
-signal TDATAO_s  : out std_logic_vector(7 downto 0);
+signal TSTARTP_s : std_logic :='0';
+signal TREADDP_s : std_logic :='0';
+signal TDONEP_s  : std_logic :='0';
+signal TRNSMTP_s : std_logic :='0';
+signal TDATAO_s  : std_logic_vector(7 downto 0);
 -- Clock period
 constant t : time := 10 ns;
 begin
@@ -43,7 +43,7 @@ begin
         TREADDP=>TREADDP_s,
         TDONEP => TDONEP_s,
         TRNSMTP => TRNSMTP_s,
-        TDATAO => TADATO_s;    
+        TDATAO => TDATAO_s    
     );
 
     -- Création d'une clock de période t
@@ -54,11 +54,13 @@ begin
     end process;
     
     -- Signaux de test
-    stimulus_proc : process
-    begin 
-        RESETN <= '0', '1' after 100 ns;
+    
+        RESETN_s <= '0', '1' after 100 ns;
         TAVAILP_s <= '0', '1' after 110 ns, '0' after 120 ns;
-        TLASTP_s <= '0', '1' after 110 ns;
-    end process;
+        TABORTP_s <= '0', '1' after 560 ns, '0' after 570 ns;
+        TFINISHP_s <= 'Z';
+        TDATAI_s <= X"00", X"CD" after 190 ns, X"EF" after 270 ns, X"CD" after 350 ns, X"EF" after 430 ns, X"CD" after 510 ns, X"EF" after 590 ns, X"69" after 1150 ns, X"42" after 1230 ns;
+        TLASTP_s <= '0', '1' after 1230 ns, '0' after 1240 ns ;
+  
     
 end;
