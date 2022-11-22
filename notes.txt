@@ -31,7 +31,7 @@ RECEPTION :
 - RBYTEP : sortie = impulsion binaire qui indique la réception d'un nouvel octet de donnée (écriture dans RDATAO)
 - RCLEANP : sortie = implusion binaire qui indique une erreur sur la réception (trame trop petite, trop longue, si on est aps le destinataire,etc)
 - RCNVGP : sortie = niveau binaire pour indiquer la réception (passe à 1 au SFD, tant qu'on recoit de la donnée, passe à 0 au EFD)
-- RDATZ0[7:0] : sortie = octet (vect binaire) de donnée à transmettre à la couche supérieure (LLC)
+- RDATA0[7:0] : sortie = octet (vect binaire) de donnée à transmettre à la couche supérieure (LLC)
 - RDONEP : sortie = impulsion binaire qui indique la fin de réception d'une frame (bonne ou pas)
 - RENABP : entrée = niveau binaire qui indique que le récepteur peut fonctionner
 - RSMATIP : sortie = niveau binaire qui passe haut si la trame en traitement nous est bien destinée
@@ -45,10 +45,10 @@ transmission des données dans RDATAO
 On n'envoie pas le EFD dans RDATAO
 
 TRANSMISSION :
-- TABORTP : entrée = arrêt de la transmission (problème ou collision) => envoyer 4 octets de 1-0 alternés
+- XTABORTP : entrée = arrêt de la transmission (problème ou collision) => envoyer 4 octets de 1-0 alternés
 - XTAVAILP : entrée = trame prête à la transmission
 - xTDATAI[7:0]: entrée = octet à transmettre
-- TFINISHP : entrée = impulsion arrête la transmission
+- TFINISHP : entrée = impulsion arrête la transmission PA FAIT MDRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 - XTLASTP : entrée = impulsion binaire qui indique que l'entrée est le dernier octet
  
 - XTDATAO[7:0] : sortie = octet à envoyer à la couche physique
