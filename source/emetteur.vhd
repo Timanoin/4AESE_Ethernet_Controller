@@ -12,6 +12,7 @@ entity emetteur is
           TLASTP   : in std_logic; 
           CLK      : in std_logic; 
           RESETN   : in std_logic;
+          TSOCOLP  : in std_logic;
           TDATAI   : in std_logic_vector(7 downto 0);
           TSTARTP  : out std_logic; 
           TREADDP  : out std_logic; 
@@ -73,7 +74,7 @@ begin
             TREADDP_s <='0';           
             TDONEP_s  <='0';               
             TSTARTP_s <='0';
-            if TABORTP = '1' then aborting <= '1'; end if; 
+            if (TABORTP = '1' or TSOCOLP = '1') then aborting <= '1'; end if; 
             -- Clock tous les 8 bits 
             if cmp_clk(2) = '1' and clk_state = '0' then
                 TDATAO <= (others => '0');

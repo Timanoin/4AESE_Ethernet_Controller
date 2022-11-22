@@ -10,30 +10,28 @@ entity collisions is
           RESETN  : in std_logic;
           RCVNGP  : in std_logic; 
           TRNSMTP : in std_logic;
-          RENABP  : out std_logic;
-          TABORTP : out std_logic; 
-          TSOCOLP : out std_logic;) 
+          TSOCOLP : out std_logic); 
 end collisions;
 
 architecture behavioral of collisions is 
     
     -- Signaux de sortie intermédiaires
-    signal TSOCOLP_s  : std_logic; 
-    signal TABORTP_s : std_logic; 
-    signal RENABP_s  : std_logic; 
+    signal TSOCOLP_s  : std_logic;  
 
 begin 
     -- Process synchrone sur la clock de base : 
     -- gestion des impulsions, 
     -- observation du début d'émission.
-    process (CLK, RESETN )
+    process (CLK, RESETN)
     begin
         if RESETN = '0' then
             TSOCOLP_s <= '0';
-            TABORTP_s <= '0';
-            RENABP_s  <= '1';
         elsif rising_edge(CLK) then
+            TSOCOLP_s <= '0';
             if RCVNGP = '1' and TRNSMTP = '1' then
                 TSOCOLP_s <= '1';
-                TABORTP_s <= '1';
-                RENABP_s  <= '0';
+            end if;
+        end if;
+    end process;
+    TSOCOLP <= TSOCOLP_s;
+end behavioral; 
