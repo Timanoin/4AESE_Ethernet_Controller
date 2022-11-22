@@ -9,41 +9,44 @@ end emetteur_test;
 
 architecture behavioral of emetteur_test is
 component emetteur
-   port (TABORTP, TAVAILP, TFINISHP, TLASTP, CLK, RESETN : in std_logic;
-          TDATAI  : in std_logic_vector(7 downto 0);
-          TSTARTP, TREADDP, TDONEP, TRNSMTP  : out std_logic;
-          TDATAO : out std_logic_vector(7 downto 0));
+   port (CLK     : in std_logic; 
+        RESETN  : in std_logic;
+        RENABP  : in std_logic; 
+        RDATAI  : in std_logic_vector(7 downto 0);
+        RBYTEP  : out std_logic;
+        RCLEANP : out std_logic; 
+        RCNVGP  : out std_logic; 
+        RDONEP  : out std_logic;   
+        RSMATIP : out std_logic; 
+        RSTARTP : out std_logic;
+        RDATAO  : out std_logic_vector(7 downto 0));
 end component; 
 signal CLK_s     : std_logic := '0';
 signal RESETN_s  : std_logic := '0';
--- input signals
-signal TABORTP_s : std_logic := '0';
-signal TAVAILP_s : std_logic := '0';
-signal TFINISHP_s: std_logic := '0';
-signal TLASTP_s  : std_logic := '0';
-signal TDATAI_s  : std_logic_vector(7 downto 0) := (others => '0') ;
--- output signals
-signal TSTARTP_s : std_logic :='0';
-signal TREADDP_s : std_logic :='0';
-signal TDONEP_s  : std_logic :='0';
-signal TRNSMTP_s : std_logic :='0';
-signal TDATAO_s  : std_logic_vector(7 downto 0);
+signal RENABP_s  : in std_logic; 
+signal RDATAI_s  : in std_logic_vector(7 downto 0);
+signal RBYTEP_s  : out std_logic;
+signal RCLEANP_s : out std_logic; 
+signal RCNVGP_s  : out std_logic; 
+signal RDONEP_s  : out std_logic;   
+signal RSMATIP_s : out std_logic; 
+signal RSTARTP_s : out std_logic;
+signal RDATAO_s  : out std_logic_vector(7 downto 0));
 -- Clock period
 constant t : time := 10 ns;
 begin
     uut : emetteur port map(
         CLK => CLK_s,
         RESETN => RESETN_s,
-        TABORTP => TABORTP_s, 
-        TAVAILP => TAVAILP_s,
-        TFINISHP => TFINISHP_s,
-        TLASTP => TLASTP_s,
-        TDATAI => TDATAI_s,
-        TSTARTP => TSTARTP_s, 
-        TREADDP=>TREADDP_s,
-        TDONEP => TDONEP_s,
-        TRNSMTP => TRNSMTP_s,
-        TDATAO => TDATAO_s    
+        RENABP => RENABP_s,
+        RDATAI => RDATAI_s,
+        RBYTEP => RBYTEP_s,
+        RCLEANP => RCLEANP_s,
+        RCNVGP => RCNVGP_s,
+        RDONEP => RDONEP_s,
+        RSMATIP => RSMATIP_s,
+        RSTARTP => RSTARTP_s,
+        RDATAO => RDATAO_s;     
     );
 
     -- Création d'une clock de période t
@@ -56,11 +59,6 @@ begin
     -- Signaux de test
     
         RESETN_s <= '0', '1' after 100 ns;
-        TAVAILP_s <= '0', '1' after 110 ns, '0' after 120 ns;
-        TABORTP_s <= '0', '1' after 560 ns, '0' after 570 ns;
-        TFINISHP_s <= 'Z';
-        TDATAI_s <= X"00", X"CD" after 190 ns, X"EF" after 270 ns, X"CD" after 350 ns, X"EF" after 430 ns, X"CD" after 510 ns, X"EF" after 590 ns, X"69" after 1150 ns, X"42" after 1230 ns;
-        TLASTP_s <= '0', '1' after 1230 ns, '0' after 1240 ns ;
   
     
 end;
