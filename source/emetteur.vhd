@@ -50,7 +50,7 @@ begin
     -- Process synchrone sur la clock de base : 
     -- gestion des impulsions, 
     -- observation du début d'émission.
-    process (CLK)
+    process (CLK, RESETN)
     begin
         if RESETN = '0' then
             TRNSMTP_s <= '0'; 
@@ -76,6 +76,7 @@ begin
             if TABORTP = '1' then aborting <= '1'; end if; 
             -- Clock tous les 8 bits 
             if cmp_clk(2) = '1' and clk_state = '0' then
+                TDATAO <= (others => '0');
                 if aborting = '1' then 
                     TDATAO <= ABORT_SEQ; 
                     cmp_abort <= cmp_abort + 1;
@@ -129,6 +130,17 @@ begin
                         TDATAO <= EFD;
                         TDONEP_s <= '1';
                         TRNSMTP_s <= '0';
+                        cmp_src   <= 0; 
+                        cmp_dest  <= 0; 
+                        cmp_abort <= 0;
+                        cmp_clk   <= "00000011";
+                        clk_state <= '0';
+                        SFD_done  <= '0'; 
+                        EFD_done  <= '0'; 
+                        src_done  <= '0'; 
+                        dest_done <= '0';
+                        DATA_done <= '0';
+                        aborting  <= '0';
                     end if;
                 end if; 
             end if;  
