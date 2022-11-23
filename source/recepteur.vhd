@@ -1,4 +1,9 @@
--- Recepteur
+--================================================
+--                recepteur.vhd
+--      Olivier Lagrost, Arthur Gautheron
+--                 4AESE - TP3
+-- Réception du contrôleur Ethernet - couche MAC.
+--================================================
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -34,16 +39,15 @@ architecture behavioral of recepteur is
     signal cmp_clk   : std_logic_vector(7 downto 0); 
     signal clk_state : std_logic;
     -- Signaux booleens
-    signal SFD_done  : bit;  
-    signal src_done  : bit; 
-    signal dest_done : bit;
+    signal SFD_done   : bit;  
+    signal src_done   : bit; 
+    signal dest_done  : bit;
     signal recep_done : bit;    
     -- Vecteurs constants
-    constant SFD      : std_logic_vector(7 downto 0)  := "10101011";
-    constant EFD      : std_logic_vector(7 downto 0)  := "01010100";
-    constant ABORT_SEQ: std_logic_vector(7 downto 0)  := "10101010";
-    constant NOADDR : std_logic_vector(47 downto 0) := X"ABABABABABAB"; 
-    
+    constant SFD       : std_logic_vector(7 downto 0)  := "10101011";
+    constant EFD       : std_logic_vector(7 downto 0)  := "01010100";
+    constant ABORT_SEQ : std_logic_vector(7 downto 0)  := "10101010";
+    constant NOADDR    : std_logic_vector(47 downto 0) := X"ABABABABABAB";  
 begin 
     -- Process synchrone sur la clock de base : 
     -- gestion des impulsions, 
@@ -159,8 +163,7 @@ begin
             cmp_clk <= cmp_clk + 1;     
         end if;
     end process;
- 
-   
+  
     --Assignation des sorties
     RCVNGP  <= RCVNGP_s; 
     RDONEP  <= RDONEP_s;
@@ -168,4 +171,6 @@ begin
     RCLEANP <= RCLEANP_s;
     RSMATIP <= RSMATIP_s;
     RSTARTP <= RSTARTP_s;
-end behavioral;  
+
+end behavioral; 
+ 

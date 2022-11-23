@@ -1,4 +1,9 @@
--- Collisions
+--===================================================
+--               collisions.vhd
+--      Olivier Lagrost, Arthur Gautheron
+--                 4AESE - TP3
+-- Gestionnaire de collisions du contrôleur Ethernet.
+--===================================================
 
 library ieee;
 use ieee.std_logic_1164.all;

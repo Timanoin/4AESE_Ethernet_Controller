@@ -1,13 +1,19 @@
--- Top
-
+--================================================
+--                   top.vhd
+--      Olivier Lagrost, Arthur Gautheron
+--                 4AESE - TP3
+-- Assemblage des éléments du contrôleur Ethernet.
+--================================================
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use ieee.std_logic_arith.all;
 
 entity top is
-    port (CLK     : in std_logic; 
+    port (-- Signaux généraux
+          CLK     : in std_logic; 
           RESETN  : in std_logic;
+          -- Reception
           RENABP  : in std_logic; 
           RDATAI  : in std_logic_vector(7 downto 0);
           RBYTEP  : out std_logic;
@@ -17,6 +23,7 @@ entity top is
           RSMATIP : out std_logic; 
           RSTARTP : out std_logic;
           RDATAO  : out std_logic_vector(7 downto 0);
+          -- Emission
           TABORTP  : in std_logic;
           TAVAILP  : in std_logic; 
           TFINISHP : in std_logic; 
@@ -27,6 +34,7 @@ entity top is
           TDONEP   : out std_logic; 
           TRNSMTP  : out std_logic;
           TDATAO   : out std_logic_vector(7 downto 0);
+          -- Collisions
           TSOCOLP : out std_logic);      
 end top;
 
@@ -34,8 +42,7 @@ architecture structural of top is
     signal TSOCOLP_s : std_logic;
     signal TRNSMTP_s : std_logic;
     signal RCVNGP_s  : std_logic;
-
-    begin 
+begin 
     emetteur : entity work.emetteur(behavioral)
     port map(CLK => CLK,
         RESETN   => RESETN,

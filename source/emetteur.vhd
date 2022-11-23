@@ -1,4 +1,9 @@
--- Emetteur
+--==============================================
+--               collisions.vhd
+--      Olivier Lagrost, Arthur Gautheron
+--                 4AESE - TP3
+-- Emetteur du contrôleur Ethernet - couche MAC.
+--==============================================
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -6,12 +11,12 @@ use ieee.std_logic_unsigned.all;
 use ieee.std_logic_arith.all;
 
 entity emetteur is
-    port (TABORTP  : in std_logic;
+    port (CLK      : in std_logic; 
+          RESETN   : in std_logic;
+          TABORTP  : in std_logic;
           TAVAILP  : in std_logic; 
           TFINISHP : in std_logic; 
           TLASTP   : in std_logic; 
-          CLK      : in std_logic; 
-          RESETN   : in std_logic;
           TSOCOLP  : in std_logic;
           TDATAI   : in std_logic_vector(7 downto 0);
           TSTARTP  : out std_logic; 
@@ -51,7 +56,7 @@ begin
     -- Process synchrone sur la clock de base : 
     -- gestion des impulsions, 
     -- observation du début d'émission.
-    process (CLK, RESETN)
+    emetteur : process (CLK, RESETN)
     begin
         if RESETN = '0' then
             TRNSMTP_s <= '0'; 
@@ -74,10 +79,12 @@ begin
             TREADDP_s <='0';           
             TDONEP_s  <='0';               
             TSTARTP_s <='0';
+            -- Activation de l'avortement si nécessaire
             if (TABORTP = '1' or TSOCOLP = '1') then aborting <= '1'; end if; 
             -- Clock tous les 8 bits 
             if cmp_clk(2) = '1' and clk_state = '0' then
                 TDATAO <= (others => '0');
+                -- Sequence d'avortement
                 if aborting = '1' then 
                     TDATAO <= ABORT_SEQ; 
                     cmp_abort <= cmp_abort + 1;
@@ -87,6 +94,7 @@ begin
                         TRNSMTP_s <= '0';
                         TDATAO <= (others=>'0');
                     end if;
+                -- Fonctionnement normal de l'emetteur
                 elsif  TRNSMTP_s = '1' or TAVAILP = '1' then
                     TRNSMTP_s <= '1';
                     if TAVAILP = '1' then TSTARTP_s <= '1'; end if; 
@@ -150,11 +158,11 @@ begin
             cmp_clk <= cmp_clk + 1;     
         end if;
     end process;
- 
-   
+  
     --Assignation des sorties
     TRNSMTP <= TRNSMTP_s; 
     TSTARTP <= TSTARTP_s;
     TREADDP <= TREADDP_s;
     TDONEP  <= TDONEP_s;
+
 end behavioral;  
