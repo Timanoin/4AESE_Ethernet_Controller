@@ -13,7 +13,7 @@ Nous avons choisi une approche par "blocs", c'est-à-dire de créer pour chaque 
 
 Une trame Ethernet est constituée de différents éléments.
 
-- SFD (Start Frame Delimitor : un octet 0b01010100 qui indique le début d'une trame.
+- SFD (Start Frame Delimitor) : un octet 0b01010100 qui indique le début d'une trame.
 
 - Adresse du destinataire : l'adresse du contrôleur Ethernet qui va recevoir les données, codée sur 6 octets.
 
@@ -29,20 +29,23 @@ Le dossier source contient tous les fichiers **.vhd** décrivant de manière com
 ### 📄 emetteur.vhd
 Ce fichier décrit comment le contrôleur éthernet construit une trame Ethernet à partir des informations qu'il reçoit, et comment les informations sont envoyées à la couche physique. 
 
-Si RENABP = 1, le contrôleur reste en attente de données sur RDATAI.
-
-Lorsque un SFD arrive sur RDATAI, alors le contrôleur se met en mode récepteur.
+Si RENABP = 1, le contrôleur reste en attente de données sur RDATAI. Lorsque un SFD arrive sur RDATAI, alors le contrôleur se met en mode récepteur.
 
 Il va interpréter les 6 prochains octets arrivants comme l'adresse du destinataire : 
 - si jamais il ne s'agit pas de son adresse (NOADDRI), alors le contrôleur stoppe la réception et se remet en attente.
 - sinon la réception continue.
 
-Les 6 prochains octets correspondent à l'adresse de la source : ils sont transmis à la couche supérieure.
-
-Les octets suivants sont tous transmis à la couche supérieure, car il s'agit de données. Jusqu'à ce que l'un d'entre eux soit un EFD : la réception est alors finie.
+Les 6 prochains octets correspondent à l'adresse de la source : ils sont transmis à la couche supérieure, ainsi que les octets suivants car il s'agit de données. Jusqu'à ce que l'un d'entre eux soit un EFD : la réception est alors finie.
 
 ### 📄 recepteur.vhd
 Ce fichier décrit comment le contrôleur gère l'arrivée de données : déconstruction de la trame en arrivée, envoi de l'information à la couche supérieure si la trame est bien destinée à l'adresse MAC du contrôleur.
+
+Le contrôleur reste en attente d'une impulsion sur TAVAILP : cela signifie qu'une trame va devoir être envoyée. Il passe alors en mode transmission.
+
+Il va d'abord construire un EFD et l'envoyer sur TDATAO, vers la couche physique. Puis il va envoyer l'adresse destinataire, qu'il transmet depuis TDATAI. Il va ensuite construire sa propre adresse en 6 octets et les envoyers 1 par 1.
+ 
+Puis le contrôleur va simplement transmettre les données de TDATAI vers TDATAO jusqu'à ce qu'il recoive une impulsion sur TLASTP. 
+A ce moment, la donnée envoyée est la dernière. Le prochain octet à envoyer est donc l'EFD, pour indiquer la fin de trame.
 
 ### 📄 collisions.vhd
 Ce fichier décrit la gestion des collisions : lorsque le contrôleur essaie d'émettre et de recevoir des données, le gestionnaire de collisions avorte la transmission de données. La réception de données est donc **prioritaire** par rapport à l'émission.
@@ -54,12 +57,14 @@ Ce fichier assemble les fichiers **emetteur.vhd**, **recepteur.vhd** et **collis
 Le dossier test contient tous les fichiers **.vhd** permettant de tester en simulation les fichiers **.vhd**.
 
 ### 📄 emetteur_test.vhd
-
+Fichier de test unitaire de l'emetteur en simulation.
 
 ### 📄 recepteur_test.vhd
-
+Fichier de test unitaire du récepteur en simulation.
 
 ### 📄 collisions_test.vhd
-
+Fichier de test unitaire du gestionnaire de collisions en simulation.
 
 ### 📄 top_test.vhd
+Fichier de test pour la simulation du composant complet.
+
