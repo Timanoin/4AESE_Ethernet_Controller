@@ -9,35 +9,37 @@ L'ensemble des fichiers ont été écrit en VHDL, puis synthétisés et impléme
 
 Nous avons choisi une approche par "blocs", c'est-à-dire de créer pour chaque fonctionnalité du contrôleur un fichier .vhd, afin de pouvoir tester chaque fonctionnalité séparément et de donner une meilleure lisibilité à notre projet.
 
-## 🎞️ Ethernet
+## 🎞️ Trame Ethernet
 
 Une trame Ethernet est constituée de différents éléments.
 
-### SFD : Start Frame Delimitor
+- SFD (Start Frame Delimitor : un octet 0b01010100 qui indique le début d'une trame.
 
-Il s'agit d'un octet 0b01010100 qui indique le début d'une trame.
+- Adresse du destinataire : l'adresse du contrôleur Ethernet qui va recevoir les données, codée sur 6 octets.
 
-### Adresse du destinataire
+- Adresse de la source : l'adresse du contrôleur Ethernet qui envoie les données, codée sur 6 octets.
 
-Il s'agit de l'adresse du contrôleur Ethernet qui va recevoir les données, codée sur 6 octets.
+- Données
 
-### Adresse de la source
-
-Il s'agit de l'adresse du contrôleur Ethernet qui envoie les données, codée sur 6 octets.
-
-### Données
-
-Il s'agit des données utilisables.
-
-### EFD : End Frame Delimitor
-
-Il s'agit d'un octet 0b10101011 qui indique la fin d'une trame.
+- EFD  (End Frame Delimitor) : un octet 0b10101011 qui indique la fin d'une trame.
 
 ## 📁 source
 Le dossier source contient tous les fichiers **.vhd** décrivant de manière comportementale le contrôleur Ethernet.
 
 ### 📄 emetteur.vhd
 Ce fichier décrit comment le contrôleur éthernet construit une trame Ethernet à partir des informations qu'il reçoit, et comment les informations sont envoyées à la couche physique. 
+
+Si RENABP = 1, le contrôleur reste en attente de données sur RDATAI.
+
+Lorsque un SFD arrive sur RDATAI, alors le contrôleur se met en mode récepteur.
+
+Il va interpréter les 6 prochains octets arrivants comme l'adresse du destinataire : 
+- si jamais il ne s'agit pas de son adresse (NOADDRI), alors le contrôleur stoppe la réception et se remet en attente.
+- sinon la réception continue.
+
+Les 6 prochains octets correspondent à l'adresse de la source : ils sont transmis à la couche supérieure.
+
+Les octets suivants sont tous transmis à la couche supérieure, car il s'agit de données. Jusqu'à ce que l'un d'entre eux soit un EFD : la réception est alors finie.
 
 ### 📄 recepteur.vhd
 Ce fichier décrit comment le contrôleur gère l'arrivée de données : déconstruction de la trame en arrivée, envoi de l'information à la couche supérieure si la trame est bien destinée à l'adresse MAC du contrôleur.
