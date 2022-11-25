@@ -25,7 +25,7 @@ Ce fichier décrit la gestion des collisions : lorsque le contrôleur essaie d'�
 Ce fichier assemble les fichiers **emetteur.vhd**, **recepteur.vhd** et **collisions.vhd**. Il s'agit du fichier principal qui constitue LE contrôleur Ethernet dans sa globalité.
 
 ## 📁 test
-# Le dossier test contient tous les fichiers **.vhd** permettant de tester en simulation les fichiers **.vhd**.
+Le dossier test contient tous les fichiers **.vhd** permettant de tester en simulation les fichiers **.vhd**.
 
 ### 📄 emetteur_test.vhd
 
