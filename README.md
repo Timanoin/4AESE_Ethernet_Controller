@@ -9,6 +9,30 @@ L'ensemble des fichiers ont été écrit en VHDL, puis synthétisés et impléme
 
 Nous avons choisi une approche par "blocs", c'est-à-dire de créer pour chaque fonctionnalité du contrôleur un fichier .vhd, afin de pouvoir tester chaque fonctionnalité séparément et de donner une meilleure lisibilité à notre projet.
 
+## 🎞️ Ethernet
+
+Une trame Ethernet est constituée de différents éléments.
+
+### SFD : Start Frame Delimitor
+
+Il s'agit d'un octet 0b01010100 qui indique le début d'une trame.
+
+### Adresse du destinataire
+
+Il s'agit de l'adresse du contrôleur Ethernet qui va recevoir les données, codée sur 6 octets.
+
+### Adresse de la source
+
+Il s'agit de l'adresse du contrôleur Ethernet qui envoie les données, codée sur 6 octets.
+
+### Données
+
+Il s'agit des données utilisables.
+
+### EFD : End Frame Delimitor
+
+Il s'agit d'un octet 0b10101011 qui indique la fin d'une trame.
+
 ## 📁 source
 Le dossier source contient tous les fichiers **.vhd** décrivant de manière comportementale le contrôleur Ethernet.
 
