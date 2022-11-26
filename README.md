@@ -68,3 +68,33 @@ Fichier de test unitaire du gestionnaire de collisions en simulation.
 ### 📄 top_test.vhd
 Fichier de test pour la simulation du composant complet.
 
+### Signaux utilisés 
+En réception :
+RBYTEP : Une impulsion envoyée quand un nouvel octet de donnée est disponible dans RDATAO
+RCLEANP : Une impulsion envoyée quand la trame reçue ne nous est pas destinée ou qu'elle est trop courte
+RCVNGP : Un niveau qui est mis à 1 en sortie à la réception du SFD et remis à zéro à la fin de la réception de la trame
+RDATAO : Ce sont les 8 bits de données que nous envoyons aux niveaux supérieurs
+RDATAI : Ce sont les 8 bits de données que nous recevons en entrée
+RDONEP : Une impulsion envoyée quand tous les octets de données sont reçus et valides
+RENABP : Un niveau que nous recevons nous disant que nous sommes en réception et que nous pouvons recevoir des trames
+RSMATIP : Un niveau qui est mis à 1 en sortie quand l'adresse du récepteur de la trame correspond à la notre
+RSTARTP : Une impulsion qui est envoyée à la réception du SFD 
+
+En émission : 
+TABORTP : Une impulsion qui, quand elle est reçue, arrête toute émission et envoie 32 bits de 0 et de 1 alternés
+TAVAILP : Un niveau que nous recevons à 1 quand des données sont disponibles pour être envoyées puis remis à 0 à la fin de la transmission ou en cas d'erreur
+TDATAI : Ce sont les 8 bits de données que nous recevons des niveaux supérieurs
+TDATAO : Ce sont les 8 bits de données que nous envoyons en sortie
+TDONEP : Une impulsion signalant la fin à la fin d'une transmission même s'il y a une erreur
+TFINISHP : Un niveau que nous recevons à 1 quand il faut stopper la transmision et ne pas en commencer de nouvelle tant qu'il n'est pas à 0
+TLASTP : Une impulsion recue qui indique que la donnée dans TDATAI est la dernière à envoyer
+TREADDP : Une impulsion envoyée quand les données dasn TDATAI ont été lues
+TRNSMTP : Un niveau qui est mis à 1 en sortie pour indiquer que nous sommes en transmission 
+TSTARTP : Une impulsion envoyée pour indiquer le début de la transmission 
+
+Autres :
+TSOCOLP : Un niveau qui est mis à 1 en sortie en cas de collision
+RESETN : Un niveau qui doit être à 0 pendant 200ns au moins avant de transmettre ou recevoir des trames afin d'initialiser et de remettre tous les signaux à leur valeur d'origine
+CLK : Signal d'horloge de notre système, un tic d'horloge vaut 10 ns 
+
+
