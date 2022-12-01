@@ -99,7 +99,7 @@ begin
                 '0' after 8000 ns, '1' after 8100 ns, -- C1
                 '0' after 10000 ns, '1' after 10100 ns; -- C2
     -- ========= --
-    -- RECEPTION --
+    -- RECEPTION -- FINI
     -- ========= --
     RENABP_s <= '0', '1' after 100 ns,                -- T1
                 '0' after 2000 ns, '1' after 2100 ns, -- T2

@@ -15,7 +15,7 @@ entity emetteur is
           RESETN   : in std_logic;
           TABORTP  : in std_logic;
           TAVAILP  : in std_logic; 
-          TFINISHP : in std_logic; 
+          TFINISHP : in std_logic; -- Non utilisé, à relier au 'Z' 
           TLASTP   : in std_logic; 
           TSOCOLP  : in std_logic;
           TDATAI   : in std_logic_vector(7 downto 0);
