@@ -49,7 +49,7 @@ begin
         RDATAO => RDATAO_s     
     );
 
-    -- Création d'une clock de période t
+    -- Creation d'une clock de periode t
     clk_proc : process
     begin 
         CLK_s <= not(CLK_s);
@@ -61,22 +61,22 @@ begin
         RESETN_s <= '0', '1' after 100 ns, '0' after 1700 ns, '1' after 2100 ns;
         RENABP_s <= '0', '1' after 110 ns, '0' after 1700 ns, '1' after 2110 ns;
         RDATAI_s <= X"00", 
-        X"11" after 120 ns, --donnée inutile
-        X"22" after 200 ns, --donnée inutile
+        X"11" after 120 ns, --donnee inutile
+        X"22" after 200 ns, --donnee inutile
         "10101011" after 280 ns, --SFD
         X"AB" after 360 ns, --NOADDR
         X"78" after 840 ns, --ADDR_SRC
-        X"42" after 1320 ns, --données
-        X"69" after 1400 ns, --données 
+        X"42" after 1320 ns, --donnees
+        X"69" after 1400 ns, --donnees 
         "01010100" after 1560 ns, --EFD  
         
-        X"11" after 2120 ns, --donnée inutile
-        X"22" after 2200 ns, --donnée inutile
+        X"11" after 2120 ns, --donnee inutile
+        X"22" after 2200 ns, --donnee inutile
         "10101011" after 2280 ns, --SFD
-        X"AB" after 2360 ns, --NOADDR
+        X"AC" after 2360 ns, --NOADDR
         X"32" after 2840 ns, --ADDR_SRC
-        X"55" after 3320 ns, --données
-        X"25" after 3400 ns, --données 
+        X"55" after 3320 ns, --donnees
+        X"25" after 3400 ns, --donnees 
         "01010100" after 3560 ns; --EFD  
  
 end;
