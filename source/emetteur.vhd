@@ -81,6 +81,7 @@ begin
             TSTARTP_s <='0';
             -- Activation de l'avortement si nécessaire
             if (TABORTP = '1' or TSOCOLP = '1') then aborting <= '1'; end if; 
+            if TAVAILP = '1' then TRNSMTP_s <= '1'; end if;
             -- Clock tous les 8 bits 
             if cmp_clk(2) = '1' and clk_state = '0' then
                 TDATAO <= (others => '0');
@@ -95,8 +96,7 @@ begin
                         TDATAO <= (others=>'0');
                     end if;
                 -- Fonctionnement normal de l'emetteur
-                elsif  TRNSMTP_s = '1' or TAVAILP = '1' then
-                    TRNSMTP_s <= '1';
+                elsif  TRNSMTP_s = '1' then
                     if TAVAILP = '1' then TSTARTP_s <= '1'; end if; 
                     -- Envoi du Start Frame Delimitor
                     if SFD_done = '0' then

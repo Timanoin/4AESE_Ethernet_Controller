@@ -52,7 +52,7 @@ begin
     -- Process synchrone sur la clock de base : 
     -- gestion des impulsions, 
     -- observation du début d'émission.
-    process (CLK, RESETN)
+    process (CLK, RESETN, RENABP)
     begin
         if RESETN = '0' then
             RBYTEP_s  <= '0'; 

@@ -63,7 +63,7 @@ architecture behavioral of top_test is
     constant t : time := 10 ns;
 
 begin
-    uut : recepteur port map(
+    uut : top port map(
         CLK => CLK_s,
         RESETN => RESETN_s,
         RENABP => RENABP_s,
@@ -74,7 +74,18 @@ begin
         RDONEP => RDONEP_s,
         RSMATIP => RSMATIP_s,
         RSTARTP => RSTARTP_s,
-        RDATAO => RDATAO_s     
+        RDATAO => RDATAO_s, 
+        TABORTP => TABORTP_s,
+        TAVAILP => TAVAILP_s,
+        TFINISHP => TFINISHP_s,
+        TLASTP => TLASTP_s,
+        TDATAI => TDATAI_s,
+        TDATAO => TDATAO_s,
+        TSTARTP => TSTARTP_s,
+        TREADDP => TREADDP_s,
+        TDONEP => TDONEP_s,
+        TRNSMTP => TRNSMTP_s,
+        TSOCOLP => TSOCOLP_s            
     );
 
     -- Création d'une clock de période t
@@ -96,8 +107,9 @@ begin
                 '0' after 2000 ns, '1' after 2100 ns, -- T2
                 '0' after 4000 ns, '1' after 4100 ns, -- R1
                 '0' after 6000 ns, '1' after 6100 ns, -- R2
-                '0' after 8000 ns, '1' after 8100 ns, -- C1
-                '0' after 10000 ns, '1' after 10100 ns; -- C2
+                '0' after 7800 ns, '1' after 7900 ns, -- C1
+                '0' after 10000 ns, '1' after 10100 ns, -- C2
+                '0' after 12000ns;
     -- ========= --
     -- RECEPTION -- FINI
     -- ========= --
@@ -105,8 +117,9 @@ begin
                 '0' after 2000 ns, '1' after 2100 ns, -- T2
                 '0' after 4000 ns, '1' after 4100 ns, -- R1
                 '0' after 6000 ns, '1' after 6100 ns, -- R2
-                '0' after 8000 ns, '1' after 8100 ns, -- C1
-                '0' after 10000 ns, '1' after 10100 ns; -- C2
+                '0' after 7800 ns, '1' after 7900 ns, -- C1
+                '0' after 10000 ns, '1' after 10100 ns, -- C2
+                '0' after 12000 ns;
 
     RDATAI_s <= X"00",        -- T1, T2
     -- R1
@@ -118,28 +131,31 @@ begin
     X"42" after 5320 ns,      --données
     X"69" after 5400 ns,      --données 
     "01010100" after 5480 ns, --EFD  
+    X"00" after 5560 ns,
     --R2
     X"00" after 6120 ns,      --donnée inutile
     X"12" after 6200 ns,      --donnée inutile
     "10101011" after 6280 ns, --SFD
-    X"AB" after 6360 ns,      --NOADDR
+    X"AC" after 6360 ns,      --NOADDR
     X"32" after 6840 ns,      --ADDR_SRC
     X"55" after 7320 ns,      --données
     X"25" after 7400 ns,      --données 
     X"52" after 7480 ns,      --données
     "01010100" after 7560 ns, --EFD  
+    X"00" after 7640 ns,
     --C1
-    X"11" after 8120 ns,      --donnée inutile
-    X"22" after 8200 ns,      --donnée inutile
-    "10101011" after 8280 ns, --SFD
-    X"AB" after 8360 ns,      --NOADDR
-    X"32" after 8840 ns,      --ADDR_SRC
-    X"01" after 9320 ns,      --données
-    X"02" after 9400 ns,      --données 
-    X"03" after 9480 ns,      --données 
-    X"04" after 9560 ns,      --données 
-    X"05" after 9640 ns,      --données 
-    "01010100" after 9560 ns; --EFD 
+    X"11" after 8320 ns,      --donnée inutile
+    X"22" after 8400 ns,      --donnée inutile
+    "10101011" after 8480 ns, --SFD
+    X"AB" after 8560 ns,      --NOADDR
+    X"32" after 9040 ns,      --ADDR_SRC
+    X"01" after 9520 ns,      --données
+    X"02" after 9600 ns,      --données 
+    X"03" after 9680 ns,      --données 
+    X"04" after 9760 ns,      --données 
+    X"05" after 9840 ns,      --données 
+    "01010100" after 9760 ns, --EFD 
+    X"00" after 9840 ns,
     --C2
     X"11" after 10120 ns,      --donnée inutile
     X"22" after 10200 ns,      --donnée inutile
@@ -148,7 +164,8 @@ begin
     X"32" after 10840 ns,      --ADDR_SRC
     X"01" after 11320 ns,      --données
     X"02" after 11400 ns,      --données 
-    "01010100" after 11480 ns; --EFD 
+    "01010100" after 11480 ns, --EFD 
+    X"00" after 11560 ns;
     
     -- ======== --
     -- EMISSION --
@@ -159,10 +176,10 @@ begin
     '0' after 120 ns,       
     '1' after 2110 ns, -- T2 
     '0' after 2120 ns,
-    '1' after 8110 ns, -- C1
-    '0' after 8120 ns,
-    '1' after 10110 ns, -- C2
-    '0' after 10120 ns;
+    '1' after 8070 ns, -- C1
+    '0' after 8080 ns,
+    '1' after 10420 ns, -- C2
+    '0' after 10430 ns;
 
     TABORTP_s <= '0', 
     '1' after 2560 ns, -- T2
@@ -180,6 +197,7 @@ begin
     X"EF" after 590 ns, -- Adresse destinataire      
     X"69" after 1150 ns, -- Données
     X"42" after 1230 ns, -- Données
+    X"00" after 1310 ns,
     -- T2
     X"CD" after 2190 ns, -- Adresse destinataire 
     X"EF" after 2270 ns, -- Adresse destinataire 
@@ -188,16 +206,36 @@ begin
     X"CD" after 2510 ns, -- Adresse destinataire 
     X"EF" after 2590 ns, -- Adresse destinataire      
     X"01" after 3150 ns, -- Données
-    X"02" after 3230 ns; -- Données
-    X"03" after 3310 ns; -- Données
-    X"04" after 3390 ns; -- Données
-    -- RAJOUTER TRAMES TESTS COLLISIONS.......
-
+    X"02" after 3230 ns, -- Données
+    X"03" after 3310 ns, -- Données
+    X"04" after 3390 ns, -- Données
+    X"00" after 3470 ns,
+    -- C1
+    X"CD" after 8120 ns, -- Adresse destinataire 
+    X"EF" after 8200 ns, -- Adresse destinataire 
+    X"CD" after 8280 ns, -- Adresse destinataire 
+    X"EF" after 8360 ns, -- Adresse destinataire 
+    X"CD" after 8440 ns, -- Adresse destinataire 
+    X"EF" after 8520 ns, -- Adresse destinataire      
+    X"69" after 8700 ns, -- Données
+    X"42" after 8780 ns, -- Données
+    X"00" after 8866 ns,
+    --C2 
+    X"CD" after 10500 ns, -- Adresse destinataire 
+    X"EF" after 10580 ns, -- Adresse destinataire 
+    X"CD" after 10660 ns, -- Adresse destinataire 
+    X"EF" after 10740 ns, -- Adresse destinataire 
+    X"CD" after 10820 ns, -- Adresse destinataire 
+    X"EF" after 11000 ns, -- Adresse destinataire      
+    X"69" after 11080 ns, -- Données
+    X"42" after 11160 ns, -- Données
+    X"00" after 11240 ns;
+    
     TLASTP_s <= '0', 
     '1' after 1230 ns, '0' after 1240 ns, -- T1
     '1' after 3390 ns, '0' after 3400 ns, -- T2
     -- A MODIFIER.......
-    '1' after 9230 ns, '0' after 9240 ns, -- C1
-    '1' after 11230 ns, '0' after 11240 ns; -- C2
+    '1' after 8780 ns, '0' after 8790 ns, -- C1
+    '1' after 11160 ns, '0' after 11170 ns; -- C2
  
 end;
