@@ -104,13 +104,13 @@ Le dossier test contient tous les fichiers **.vhd** permettant de tester en simu
 
 ### Avancement
 
-Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnaire de collisions simples. Nous allons essayer d'améliorer le gestionnaire de collisions pour qu'il gère les collisions multiples.
+Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnaire de collisions simples. Ils fonctionnent en simulation comportementale, en simulation après synthèse, et en simulation après implémentation.
 
 ### Emetteur
 
 #### Timing
 
-Après synthèse et implémentation, le chemin le plus long est de 4.862ns. La fréquence de fonctionnement maximale serait de 205 MHz.
+Après synthèse et implémentation, le chemin le plus long est de 5.003ns. La fréquence de fonctionnement maximale serait de 199.9 MHz.
 
 #### Eléments logiques 
 
@@ -120,24 +120,21 @@ Le composant utilise 135 portes logiques et 117 flip-flops.
 
 #### Timing
 
-Après synthèse et implémentation, le chemin le plus long est de 4.862ns. La fréquence de fonctionnement maximale serait de 205 MHz.
+Après synthèse et implémentation, le chemin le plus long est de 5.138ns. La fréquence de fonctionnement maximale serait de 194.6 MHz.
 
 #### Eléments logiques 
 
 Le composant utilise 92 portes logiques et 84 flip-flops.
 
-### Collisions
-
-#### Timing
-
-#### Eléments logiques 
-
-
 ### Top
 
 #### Timing
 
+Après synthèse et implémentation, le chemin le plus long est de 5.454ns. La fréquence de fonctionnement maximale serait de 183.3 MHz.
+
 #### Eléments logiques 
+
+Le composant utilise 230 portes logiques et 203 flip-flops.
 
 
 
