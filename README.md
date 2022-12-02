@@ -9,6 +9,42 @@ L'ensemble des fichiers ont été écrit en VHDL, puis synthétisés et impléme
 
 Nous avons choisi une approche par "blocs", c'est-à-dire de créer pour chaque fonctionnalité du contrôleur un fichier .vhd, afin de pouvoir tester chaque fonctionnalité séparément et de donner une meilleure lisibilité à notre projet.
 
+## 🧪 Résultats
+
+### Avancement
+
+Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnaire de collisions simples. Ils fonctionnent en simulation comportementale, en simulation après synthèse, et en simulation après implémentation.
+
+### Emetteur
+
+#### Timing
+
+Après synthèse et implémentation, le chemin le plus long est de 5.003ns. La fréquence de fonctionnement maximale serait de 199.9 MHz.
+
+#### Eléments logiques 
+
+Le composant utilise 135 portes logiques et 117 flip-flops.
+
+### Récepteur
+
+#### Timing
+
+Après synthèse et implémentation, le chemin le plus long est de 5.138ns. La fréquence de fonctionnement maximale serait de 194.6 MHz.
+
+#### Eléments logiques 
+
+Le composant utilise 92 portes logiques et 84 flip-flops.
+
+### Top
+
+#### Timing
+
+Après synthèse et implémentation, le chemin le plus long est de 5.454ns. La fréquence de fonctionnement maximale serait de 183.3 MHz.
+
+#### Eléments logiques 
+
+Le composant utilise 230 portes logiques et 203 flip-flops.
+
 ## 🎞️ Trame Ethernet
 
 Une trame Ethernet est constituée de différents éléments.
@@ -99,42 +135,4 @@ Ce fichier assemble les fichiers **emetteur.vhd**, **recepteur.vhd** et **collis
 
 ## 📁 test
 Le dossier test contient tous les fichiers **.vhd** permettant de tester en simulation les fichiers **.vhd**.
-
-## 🧪 Résultats
-
-### Avancement
-
-Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnaire de collisions simples. Ils fonctionnent en simulation comportementale, en simulation après synthèse, et en simulation après implémentation.
-
-### Emetteur
-
-#### Timing
-
-Après synthèse et implémentation, le chemin le plus long est de 5.003ns. La fréquence de fonctionnement maximale serait de 199.9 MHz.
-
-#### Eléments logiques 
-
-Le composant utilise 135 portes logiques et 117 flip-flops.
-
-### Récepteur
-
-#### Timing
-
-Après synthèse et implémentation, le chemin le plus long est de 5.138ns. La fréquence de fonctionnement maximale serait de 194.6 MHz.
-
-#### Eléments logiques 
-
-Le composant utilise 92 portes logiques et 84 flip-flops.
-
-### Top
-
-#### Timing
-
-Après synthèse et implémentation, le chemin le plus long est de 5.454ns. La fréquence de fonctionnement maximale serait de 183.3 MHz.
-
-#### Eléments logiques 
-
-Le composant utilise 230 portes logiques et 203 flip-flops.
-
-
 
