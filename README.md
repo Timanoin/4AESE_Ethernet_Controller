@@ -110,27 +110,27 @@ Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnair
 
 #### Timing
 
+Après synthèse et implémentation, le chemin le plus long est de 4.862ns. La fréquence de fonctionnement maximale serait de 205 MHz.
+
 #### Eléments logiques 
 
-#### Signaux
-
+Le composant utilise 135 portes logiques et 117 flip-flops.
 
 ### Récepteur
 
 #### Timing
 
+Après synthèse et implémentation, le chemin le plus long est de 4.862ns. La fréquence de fonctionnement maximale serait de 205 MHz.
+
 #### Eléments logiques 
 
-#### Signaux
-
+Le composant utilise 92 portes logiques et 84 flip-flops.
 
 ### Collisions
 
 #### Timing
 
 #### Eléments logiques 
-
-#### Signaux
 
 
 ### Top
@@ -139,6 +139,5 @@ Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnair
 
 #### Eléments logiques 
 
-#### Signaux
 
 
