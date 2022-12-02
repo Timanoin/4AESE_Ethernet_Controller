@@ -37,6 +37,26 @@ Il va interpréter les 6 prochains octets arrivants comme l'adresse du destinata
 
 Les 6 prochains octets correspondent à l'adresse de la source : ils sont transmis à la couche supérieure, ainsi que les octets suivants car il s'agit de données. Jusqu'à ce que l'un d'entre eux soit un EFD : la réception est alors finie.
 
+TABORTP : Une impulsion qui, quand elle est reçue, arrête toute émission et envoie 32 bits de 0 et de 1 alternés
+
+TAVAILP : Un niveau que nous recevons à 1 quand des données sont disponibles pour être envoyées puis remis à 0 à la fin de la transmission ou en cas d'erreur
+
+TDATAI : Ce sont les 8 bits de données que nous recevons des niveaux supérieurs
+
+TDATAO : Ce sont les 8 bits de données que nous envoyons en sortie
+
+TDONEP : Une impulsion signalant la fin à la fin d'une transmission même s'il y a une erreur
+
+TFINISHP : Un niveau que nous recevons à 1 quand il faut stopper la transmision et ne pas en commencer de nouvelle tant qu'il n'est pas à 0
+
+TLASTP : Une impulsion recue qui indique que la donnée dans TDATAI est la dernière à envoyer
+
+TREADDP : Une impulsion envoyée quand les données dasn TDATAI ont été lues
+
+TRNSMTP : Un niveau qui est mis à 1 en sortie pour indiquer que nous sommes en transmission 
+
+TSTARTP : Une impulsion envoyée pour indiquer le début de la transmission 
+
 ### 📄 recepteur.vhd
 Ce fichier décrit comment le contrôleur gère l'arrivée de données : déconstruction de la trame en arrivée, envoi de l'information à la couche supérieure si la trame est bien destinée à l'adresse MAC du contrôleur.
 
@@ -47,54 +67,77 @@ Il va d'abord construire un EFD et l'envoyer sur TDATAO, vers la couche physique
 Puis le contrôleur va simplement transmettre les données de TDATAI vers TDATAO jusqu'à ce qu'il recoive une impulsion sur TLASTP. 
 A ce moment, la donnée envoyée est la dernière. Le prochain octet à envoyer est donc l'EFD, pour indiquer la fin de trame.
 
+RBYTEP : Une impulsion envoyée quand un nouvel octet de donnée est disponible dans RDATAO
+
+RCLEANP : Une impulsion envoyée quand la trame reçue ne nous est pas destinée ou qu'elle est trop courte
+
+RCVNGP : Un niveau qui est mis à 1 en sortie à la réception du SFD et remis à zéro à la fin de la réception de la trame
+
+RDATAO : Ce sont les 8 bits de données que nous envoyons aux niveaux supérieurs
+
+RDATAI : Ce sont les 8 bits de données que nous recevons en entrée
+
+RDONEP : Une impulsion envoyée quand tous les octets de données sont reçus et valides
+
+RENABP : Un niveau que nous recevons nous disant que nous sommes en réception et que nous pouvons recevoir des trames
+
+RSMATIP : Un niveau qui est mis à 1 en sortie quand l'adresse du récepteur de la trame correspond à la notre
+
+RSTARTP : Une impulsion qui est envoyée à la réception du SFD 
+
 ### 📄 collisions.vhd
 Ce fichier décrit la gestion des collisions : lorsque le contrôleur essaie d'émettre et de recevoir des données, le gestionnaire de collisions avorte la transmission de données. La réception de données est donc **prioritaire** par rapport à l'émission.
+
+TSOCOLP : Un niveau qui est mis à 1 en sortie en cas de collision
 
 ### 📄 top.vhd
 Ce fichier assemble les fichiers **emetteur.vhd**, **recepteur.vhd** et **collisions.vhd**. Il s'agit du fichier principal qui constitue LE contrôleur Ethernet dans sa globalité.
 
+RESETN : Un niveau qui doit être à 0 pendant 200ns au moins avant de transmettre ou recevoir des trames afin d'initialiser et de remettre tous les signaux à leur valeur d'origine
+
+CLK : Signal d'horloge de notre système, un tic d'horloge vaut 10 ns 
+
 ## 📁 test
 Le dossier test contient tous les fichiers **.vhd** permettant de tester en simulation les fichiers **.vhd**.
 
-### 📄 emetteur_test.vhd
-Fichier de test unitaire de l'emetteur en simulation.
+## 🧪 Résultats
 
-### 📄 recepteur_test.vhd
-Fichier de test unitaire du récepteur en simulation.
+### Avancement
 
-### 📄 collisions_test.vhd
-Fichier de test unitaire du gestionnaire de collisions en simulation.
+Nous avons réussi à implémenter l'émetteur, le récepteur, et un gestionnaire de collisions simples. Nous allons essayer d'améliorer le gestionnaire de collisions pour qu'il gère les collisions multiples.
 
-### 📄 top_test.vhd
-Fichier de test pour la simulation du composant complet.
+### Emetteur
 
-### Signaux utilisés 
-En réception :
-RBYTEP : Une impulsion envoyée quand un nouvel octet de donnée est disponible dans RDATAO
-RCLEANP : Une impulsion envoyée quand la trame reçue ne nous est pas destinée ou qu'elle est trop courte
-RCVNGP : Un niveau qui est mis à 1 en sortie à la réception du SFD et remis à zéro à la fin de la réception de la trame
-RDATAO : Ce sont les 8 bits de données que nous envoyons aux niveaux supérieurs
-RDATAI : Ce sont les 8 bits de données que nous recevons en entrée
-RDONEP : Une impulsion envoyée quand tous les octets de données sont reçus et valides
-RENABP : Un niveau que nous recevons nous disant que nous sommes en réception et que nous pouvons recevoir des trames
-RSMATIP : Un niveau qui est mis à 1 en sortie quand l'adresse du récepteur de la trame correspond à la notre
-RSTARTP : Une impulsion qui est envoyée à la réception du SFD 
+#### Timing
 
-En émission : 
-TABORTP : Une impulsion qui, quand elle est reçue, arrête toute émission et envoie 32 bits de 0 et de 1 alternés
-TAVAILP : Un niveau que nous recevons à 1 quand des données sont disponibles pour être envoyées puis remis à 0 à la fin de la transmission ou en cas d'erreur
-TDATAI : Ce sont les 8 bits de données que nous recevons des niveaux supérieurs
-TDATAO : Ce sont les 8 bits de données que nous envoyons en sortie
-TDONEP : Une impulsion signalant la fin à la fin d'une transmission même s'il y a une erreur
-TFINISHP : Un niveau que nous recevons à 1 quand il faut stopper la transmision et ne pas en commencer de nouvelle tant qu'il n'est pas à 0
-TLASTP : Une impulsion recue qui indique que la donnée dans TDATAI est la dernière à envoyer
-TREADDP : Une impulsion envoyée quand les données dasn TDATAI ont été lues
-TRNSMTP : Un niveau qui est mis à 1 en sortie pour indiquer que nous sommes en transmission 
-TSTARTP : Une impulsion envoyée pour indiquer le début de la transmission 
+Après synthèse et implémentation, le chemin le plus long est de 4.862ns. La fréquence de fonctionnement maximale serait de 205 MHz.
 
-Autres :
-TSOCOLP : Un niveau qui est mis à 1 en sortie en cas de collision
-RESETN : Un niveau qui doit être à 0 pendant 200ns au moins avant de transmettre ou recevoir des trames afin d'initialiser et de remettre tous les signaux à leur valeur d'origine
-CLK : Signal d'horloge de notre système, un tic d'horloge vaut 10 ns 
+#### Eléments logiques 
+
+Le composant utilise 135 portes logiques et 117 flip-flops.
+
+### Récepteur
+
+#### Timing
+
+Après synthèse et implémentation, le chemin le plus long est de 4.862ns. La fréquence de fonctionnement maximale serait de 205 MHz.
+
+#### Eléments logiques 
+
+Le composant utilise 92 portes logiques et 84 flip-flops.
+
+### Collisions
+
+#### Timing
+
+#### Eléments logiques 
+
+
+### Top
+
+#### Timing
+
+#### Eléments logiques 
+
 
 

@@ -2,7 +2,7 @@
 --                recepteur.vhd
 --      Olivier Lagrost, Arthur Gautheron
 --                 4AESE - TP3
--- Réception du contrôleur Ethernet - couche MAC.
+-- Reception du controleur Ethernet - couche MAC.
 --================================================
 
 library ieee;
@@ -26,7 +26,7 @@ end recepteur;
 
 architecture behavioral of recepteur is 
     
-    -- Signaux de sortie intermédiaires
+    -- Signaux de sortie intermediaires
     signal RBYTEP_s  : std_logic; 
     signal RCLEANP_s : std_logic; 
     signal RCVNGP_s  : std_logic; 
@@ -41,8 +41,7 @@ architecture behavioral of recepteur is
     -- Signaux booleens
     signal SFD_done   : bit;  
     signal src_done   : bit; 
-    signal dest_done  : bit;
-    signal recep_done : bit;    
+    signal dest_done  : bit;   
     -- Vecteurs constants
     constant SFD       : std_logic_vector(7 downto 0)  := "10101011";
     constant EFD       : std_logic_vector(7 downto 0)  := "01010100";
@@ -51,7 +50,7 @@ architecture behavioral of recepteur is
 begin 
     -- Process synchrone sur la clock de base : 
     -- gestion des impulsions, 
-    -- observation du début d'émission.
+    -- observation du début d'emission.
     process (CLK, RESETN, RENABP)
     begin
         if RESETN = '0' then
@@ -68,7 +67,6 @@ begin
             SFD_done  <= '0'; 
             src_done  <= '0'; 
             dest_done <= '0';
-            recep_done <= '0';
         elsif rising_edge(CLK) and RENABP = '1' then
             -- Gestion des impulsions
             RBYTEP_s  <= '0';           
@@ -136,10 +134,9 @@ begin
                             src_done <= '1';
                             cmp_src <= 0;
                         end if;
-                    -- Envoi des données
-                    elsif recep_done = '0' then
+                    -- Envoi des donnees
+                    else
                         if RDATAI = EFD then
-                            recep_done <= '1';
                             RCVNGP_s <= '0';
                             RSMATIP_s <= '0';
                             RDONEP_s <= '1';
@@ -150,7 +147,6 @@ begin
                             SFD_done  <= '0'; 
                             src_done  <= '0'; 
                             dest_done <= '0';
-                            recep_done <= '0';
                         else 
                             RDATAO <= RDATAI;
                             RBYTEP_s <= '1';
@@ -158,7 +154,7 @@ begin
                     end if;
                 end if; 
             end if;  
-            -- incrémentation clock
+            -- incrementation clock
             clk_state <= cmp_clk(2);
             cmp_clk <= cmp_clk + 1;     
         end if;
