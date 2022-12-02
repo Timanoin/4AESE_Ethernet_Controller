@@ -97,4 +97,12 @@ TSOCOLP : Un niveau qui est mis à 1 en sortie en cas de collision
 RESETN : Un niveau qui doit être à 0 pendant 200ns au moins avant de transmettre ou recevoir des trames afin d'initialiser et de remettre tous les signaux à leur valeur d'origine
 CLK : Signal d'horloge de notre système, un tic d'horloge vaut 10 ns 
 
+## 🧪 Résultat des tests
+
+### Timing
+
+### Eléments logiques 
+
+### Signaux
+
 
